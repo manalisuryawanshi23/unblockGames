@@ -9,7 +9,7 @@ const publicDir = path.join(__dirname, 'public');
 const dataDir = path.join(publicDir, 'data');
 
 const staticPages = [
-  '',
+  '/',
   '/about',
   '/contact',
   '/privacy',
