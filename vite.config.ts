@@ -22,15 +22,45 @@ export default defineConfig(({ mode }) => ({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ["react", "react-dom", "react-router-dom"],
-          icons: ["lucide-react"],
-          ui: ["@/components/AdPlacement", "@/components/GameCard", "@/components/Header"]
+        manualChunks(id) {
+          // Core React — most stable, cache indefinitely
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+            return 'react-core';
+          }
+          // React Router
+          if (id.includes('node_modules/react-router')) {
+            return 'router';
+          }
+          // TanStack Query
+          if (id.includes('node_modules/@tanstack')) {
+            return 'query';
+          }
+          // Radix UI — large but stable
+          if (id.includes('node_modules/@radix-ui')) {
+            return 'radix-ui';
+          }
+          // Lucide icons
+          if (id.includes('node_modules/lucide-react')) {
+            return 'icons';
+          }
+          // Heavy utility libs rarely used
+          if (id.includes('node_modules/recharts') || id.includes('node_modules/react-day-picker')) {
+            return 'charts';
+          }
+          // Next-themes, sonner, vaul, embla, etc. — small UI utilities
+          if (id.includes('node_modules/next-themes') ||
+              id.includes('node_modules/sonner') ||
+              id.includes('node_modules/vaul') ||
+              id.includes('node_modules/embla-carousel')) {
+            return 'ui-utils';
+          }
         }
       }
     },
-    chunkSizeWarningLimit: 1000,
-    minify: "esbuild",
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 800,
+    minify: 'esbuild',
+    target: 'es2018',
   },
   esbuild: {
     drop: ["console", "debugger"],

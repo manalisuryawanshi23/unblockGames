@@ -22,6 +22,7 @@ import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import Disclaimer from "./pages/Disclaimer";
 import NotFound from "./pages/NotFound";
+import StickyBottomAd from "@/components/StickyBottomAd";
 
 const queryClient = new QueryClient();
 
@@ -58,6 +59,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />
+            <StickyBottomAd />
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>
