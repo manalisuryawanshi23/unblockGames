@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 4%;
+    --foreground: 0 0% 96%;
+
+    --card: 220 18% 8%;
+    --card-foreground: 0 0% 96%;
+    --card-hover: 220 18% 12%;
+
+    --popover: 220 18% 8%;
+    --popover-foreground: 0 0% 96%;
+
+    --primary: 150 80% 45%;
+    --primary-foreground: 220 20% 4%;
+
+    --secondary: 220 18% 14%;
+    --secondary-foreground: 0 0% 85%;
+
+    --muted: 220 15% 15%;
+    --muted-foreground: 220 10% 55%;
+
+    --accent: 260 70% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 15% 16%;
+    --input: 220 15% 16%;
+    --ring: 150 80% 45%;
+
+    --radius: 0.75rem;
+
+    --gaming-yellow: 45 100% 55%;
+    --gaming-orange: 25 100% 55%;
+    --gaming-pink: 330 80% 60%;
+    --gaming-blue: 210 90% 55%;
+    --gaming-cyan: 185 80% 50%;
+
+    --gradient-gaming: linear-gradient(135deg, hsl(150, 80%, 45%), hsl(185, 80%, 50%));
+    --gradient-hero: linear-gradient(135deg, hsl(260, 70%, 20%), hsl(220, 20%, 4%), hsl(150, 80%, 15%));
+    --gradient-card: linear-gradient(180deg, hsl(220, 18%, 10%), hsl(220, 18%, 6%));
+
+    --shadow-glow: 0 0 20px hsl(150 80% 45% / 0.15);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.3);
+    --shadow-card-hover: 0 8px 30px hsl(0 0% 0% / 0.5);
+
+    --sidebar-background: 220 18% 6%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 150 80% 45%;
+    --sidebar-primary-foreground: 220 20% 4%;
+    --sidebar-accent: 220 18% 14%;
+    --sidebar-accent-foreground: 0 0% 96%;
+    --sidebar-border: 220 15% 16%;
+    --sidebar-ring: 150 80% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer utilities {
+  .text-gradient-gaming {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--gaming-cyan)));
+  }
+  .bg-gradient-hero {
+    background: var(--gradient-hero);
+  }
+  .bg-gradient-card {
+    background: var(--gradient-card);
+  }
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  .shadow-card-hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px hsl(var(--primary) / 0.2); }
+  50% { box-shadow: 0 0 25px hsl(var(--primary) / 0.4); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

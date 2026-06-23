@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UnblockedGamesZone - Play Free Online Games No Download</title>
+    <meta name="description" content="Play the best free unblocked games for school. No download required. Works on Chromebooks. UnblockedGamesZone features action, puzzle, and racing games." />
+    <meta name="author" content="UnblockedGamesZone" />
+    <meta name="keywords" content="unblocked games, free online games, school games, chromebook games, no download games, html5 games" />
+
+    <meta property="og:title" content="UnblockedGamesZone - Free Unblocked Games for School" />
+    <meta property="og:description" content="Access thousands of free unblocked games. No download, instant play in your browser." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://unblockedgameszone.com/" />
+    <meta property="og:image" content="/og-image.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="UnblockedGamesZone - Free Unblocked Games" />
+    <meta name="twitter:description" content="Play thousands of unblocked games at school or home. Fast and free." />
+    <meta name="twitter:image" content="/og-image.png" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0B0E14" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="UnblockedGamesZone" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <link rel="preconnect" href="https://html5.gamemonetize.co" crossorigin />
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <link rel="preconnect" href="https://images.weserv.nl" crossorigin />
+    <link rel="dns-prefetch" href="https://html5.gamemonetize.co" />
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+    <link rel="dns-prefetch" href="https://images.weserv.nl" />
+
+    <style>
+      :root { --background: 224 71% 4%; }
+      body { 
+        background-color: #0B0E14; 
+        margin: 0; 
+        font-family: system-ui, -apple-system, sans-serif;
+        color: white;
+      }
+      #root:empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+        background: #0B0E14;
+      }
+      #root:empty::after {
+        content: "GAMING ZONE";
+        font-weight: 900;
+        letter-spacing: 0.2em;
+        font-size: 1.5rem;
+        animation: pulse 1.5s infinite;
+        opacity: 0.5;
+      }
+      @keyframes pulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.5; } }
+    </style>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7506978867736173" crossorigin="anonymous"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
