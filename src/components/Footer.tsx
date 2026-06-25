@@ -40,20 +40,9 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold text-foreground mb-3 text-sm">More Categories</h4>
-            <ul className="space-y-2">
-              {categories.slice(6).map(cat => (
-                <li key={cat.id}>
-                  <Link to={`/category/${cat.slug}`} className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                    {cat.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
             <h4 className="font-semibold text-foreground mb-3 text-sm">Site Info</h4>
             <ul className="space-y-2">
+              <li><Link to="/blog" className="text-sm text-muted-foreground hover:text-primary transition-colors">Blog</Link></li>
               <li><Link to="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
               <li><Link to="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact Us</Link></li>
               <li><Link to="/disclaimer" className="text-sm text-muted-foreground hover:text-primary transition-colors">Disclaimer</Link></li>

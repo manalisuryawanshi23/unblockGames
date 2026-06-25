@@ -23,6 +23,12 @@ import ContactUs from "./pages/ContactUs";
 import Disclaimer from "./pages/Disclaimer";
 import NotFound from "./pages/NotFound";
 import StickyBottomAd from "@/components/StickyBottomAd";
+import BlogList from "./pages/BlogList";
+import BlogPost from "./pages/BlogPost";
+import AdminBlogList from "./pages/admin/AdminBlogList";
+import AdminBlogEditor from "./pages/admin/AdminBlogEditor";
+import AdminLogin from "./pages/admin/AdminLogin";
+import { AdminRoute } from "./components/admin/AdminRoute";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +62,12 @@ const App = () => (
               <Route path="/about" element={<AboutUs />} />
               <Route path="/contact" element={<ContactUs />} />
               <Route path="/disclaimer" element={<Disclaimer />} />
+              <Route path="/blog" element={<BlogList />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin/blog" element={<AdminRoute><AdminBlogList /></AdminRoute>} />
+              <Route path="/admin/blog/new" element={<AdminRoute><AdminBlogEditor /></AdminRoute>} />
+              <Route path="/admin/blog/edit/:slug" element={<AdminRoute><AdminBlogEditor /></AdminRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />

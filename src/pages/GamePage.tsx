@@ -10,6 +10,7 @@ import AdPlacement from "@/components/AdPlacement";
 import SEO from "@/components/SEO";
 import ScraperShield from "@/components/ScraperShield";
 import NextGameOverlay from "@/components/NextGameOverlay";
+import { ShareModal } from "@/components/ShareModal";
 import { getOptimizedImage } from "@/lib/image-utils";
 import { gameDescriptions } from "@/data/game-descriptions";
 import { useToast } from "@/hooks/use-toast";
@@ -31,6 +32,7 @@ export default function GamePage() {
   const [hasError, setHasError] = useState(false);
   const [hoverRating, setHoverRating] = useState(0);
   const [ratingSubmitted, setRatingSubmitted] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   // useGameRating is called with undefined until game loads, then updates
@@ -45,28 +47,25 @@ export default function GamePage() {
   };
 
   const handleShare = async () => {
-    const url = `${BASE_URL}/game/${slug}`;
-    const shareData = {
-      title: `Play ${game?.t} Unblocked`,
-      text: `Check out ${game?.t} — free unblocked game, no download needed!`,
-      url,
-    };
-    try {
-      if (navigator.share && navigator.canShare?.(shareData)) {
-        await navigator.share(shareData);
-      } else {
-        await navigator.clipboard.writeText(url);
-        toast({ title: "Link copied!", description: "Game link copied to clipboard." });
-      }
-    } catch {
+    const pageUrl = `${BASE_URL}/game/${slug}`;
+    const title = `🎮 Play ${game?.t} Unblocked - Free Online Game`;
+    const text = `Check out ${game?.t} — free unblocked game, no download needed! Play now on UnblockedGamesZone.`;
+
+    // On mobile: use native Web Share API (no file, just URL + text)
+    const isMobile = /android|iphone|ipad|ipod/i.test(navigator.userAgent);
+    if (isMobile && navigator.share) {
       try {
-        await navigator.clipboard.writeText(url);
-        toast({ title: "Link copied!", description: "Game link copied to clipboard." });
+        await navigator.share({ title, text, url: pageUrl });
+        return;
       } catch {
-        // Silent fail
+        // User cancelled or failed — fall through to modal
       }
     }
+
+    // On desktop (or mobile fallback): show our custom share modal
+    setShareOpen(true);
   };
+
 
   const handleRate = (starValue: number) => {
     if (!game) return;
@@ -492,6 +491,15 @@ export default function GamePage() {
           </div>
         </section>
       )}
+
+      {/* Share Modal (shown on desktop instead of broken native share) */}
+      <ShareModal
+        isOpen={shareOpen}
+        onClose={() => setShareOpen(false)}
+        gameTitle={game.t}
+        gameUrl={`${BASE_URL}/game/${slug}`}
+        gameThumbnail={game.img || imgSrc}
+      />
     </div>
   );
 }
