@@ -46,8 +46,8 @@ services:
       - backend
     ports:
       # Exposes port 8080 on localhost only. 
-      # Your Hostinger reverse proxy should forward unblockedgameszone.com to 127.0.0.1:8080
-      - "127.0.0.1:8080:80"
+      # Your Hostinger reverse proxy should forward unblockedgameszone.com to 127.0.0.1:4012
+      - "127.0.0.1:4012:80"
     volumes:
       # Mount the static data folder so it can be updated without rebuilding the container
       - ./public/data:/usr/share/nginx/html/data
