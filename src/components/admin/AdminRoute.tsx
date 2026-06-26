@@ -12,17 +12,8 @@ export const AdminRoute = ({ children }: AdminRouteProps) => {
     return <Navigate to="/admin/login" replace />;
   }
 
-  // Basic check to see if token is expired based on structure (if desired)
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    if (payload.exp * 1000 < Date.now()) {
-      localStorage.removeItem("admin_token");
-      return <Navigate to="/admin/login" replace />;
-    }
-  } catch (e) {
-    localStorage.removeItem("admin_token");
-    return <Navigate to="/admin/login" replace />;
-  }
+  // Frontend token format validation is removed because `atob` crashes on base64url characters (- and _),
+  // which falsely triggers token deletion. The backend is responsible for verifying the token signature and expiration.
 
   return <>{children}</>;
 };

@@ -6,6 +6,7 @@ import blogRoutes from './routes/blog';
 import authRoutes from './routes/auth';
 import uploadRoutes from './routes/upload';
 import ogRoutes from './routes/og';
+import seoRoutes from './routes/seo';
 
 dotenv.config();
 
@@ -24,6 +25,9 @@ app.use('/api/upload', uploadRoutes);
 
 // OG tag proxy for social media bots (image proxy + bot-served HTML)
 app.use('/api/og', ogRoutes);
+
+// SEO endpoints: blog sitemap + RSS feed (served at root-level paths)
+app.use('/', seoRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

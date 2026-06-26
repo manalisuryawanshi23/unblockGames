@@ -1,23 +1,55 @@
 {
-  "short_name": "UGZ",
-  "name": "UnblockedGamesZone",
+  "short_name": "UnblockedGames",
+  "name": "UnblockedGamesZone — Free Unblocked Games",
+  "description": "Play 28,000+ free unblocked games for school. No downloads, no installs. Works on Chromebooks and any browser.",
   "icons": [
     {
       "src": "/favicon.svg",
       "type": "image/svg+xml",
       "sizes": "any",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/favicon.svg",
       "type": "image/svg+xml",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "maskable"
     }
   ],
-  "start_url": "/",
-  "background_color": "#0B0E14",
+  "id": "/",
+  "start_url": "/?source=pwa",
   "display": "standalone",
-  "scope": "/",
+  "display_override": ["window-controls-overlay", "standalone", "browser"],
+  "background_color": "#0B0E14",
   "theme_color": "#19E680",
-  "description": "Play thousands of free unblocked games for school. No downloads, no installs, and completely unblocked for Chromebooks."
+  "scope": "/",
+  "orientation": "any",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["games", "entertainment"],
+  "screenshots": [
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "UnblockedGamesZone Homepage"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Trending Games",
+      "short_name": "Trending",
+      "description": "Browse the most played unblocked games",
+      "url": "/trending",
+      "icons": [{ "src": "/favicon.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Categories",
+      "short_name": "Categories",
+      "description": "Browse all game categories",
+      "url": "/categories",
+      "icons": [{ "src": "/favicon.svg", "sizes": "96x96" }]
+    }
+  ]
 }

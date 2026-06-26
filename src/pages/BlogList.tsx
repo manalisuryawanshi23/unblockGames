@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Loader2 } from "lucide-react";
+import { Loader2, BookOpen, Calendar, User } from "lucide-react";
 import SEO from "@/components/SEO";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 export default function BlogList() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -10,7 +12,7 @@ export default function BlogList() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/blog/posts");
+        const response = await fetch(`${API_BASE}/api/blog/posts`);
         if (!response.ok) throw new Error("Failed to fetch posts");
         const data = await response.json();
         // Only show published posts publicly

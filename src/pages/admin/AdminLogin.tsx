@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { API_BASE } from "@/lib/api";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -17,7 +19,7 @@ export default function AdminLogin() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -30,7 +32,7 @@ export default function AdminLogin() {
       }
 
       localStorage.setItem("admin_token", data.token);
-      navigate("/admin/blog/new");
+      navigate("/admin/blog");
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -40,6 +42,7 @@ export default function AdminLogin() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <Helmet><meta name="robots" content="noindex, nofollow" /><title>Admin Login | UnblockedGamesZone</title></Helmet>
       <div className="max-w-md w-full bg-card border border-border rounded-2xl shadow-xl p-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-extrabold mb-2">Admin Portal</h1>

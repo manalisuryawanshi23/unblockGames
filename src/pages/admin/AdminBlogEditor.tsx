@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +9,90 @@ import { Textarea } from "@/components/ui/textarea";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SEOLiveAnalyzer } from "@/components/admin/SEOLiveAnalyzer";
+import { API_BASE } from "@/lib/api";
+
+const CustomToolbar = () => (
+  <div id="custom-toolbar" className="border-b-0 rounded-t-xl bg-muted/50">
+    <span className="ql-formats">
+      <select className="ql-header" defaultValue="" onChange={e => e.persist()}>
+        <option value="1">H1</option>
+        <option value="2">H2</option>
+        <option value="3">H3</option>
+        <option value="4">H4</option>
+        <option value="">Normal</option>
+      </select>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-bold" />
+      <button className="ql-italic" />
+      <button className="ql-underline" />
+      <button className="ql-strike" />
+      <button className="ql-blockquote" />
+    </span>
+    <span className="ql-formats">
+      <button className="ql-list" value="ordered" />
+      <button className="ql-list" value="bullet" />
+      <button className="ql-indent" value="-1" />
+      <button className="ql-indent" value="+1" />
+    </span>
+    <span className="ql-formats">
+      <select className="ql-align" />
+    </span>
+    <span className="ql-formats">
+      <select className="ql-color" />
+      <select className="ql-background" />
+    </span>
+    <span className="ql-formats">
+      <button className="ql-link" />
+      <button className="ql-image" />
+      <button className="ql-video" />
+    </span>
+    <span className="ql-formats">
+      <button className="ql-insertTable" title="Insert Table" style={{ fontSize: '16px', fontWeight: 'bold' }}>田</button>
+      <button className="ql-insertRowBelow" title="Insert Row Below" style={{ fontSize: '12px' }}>+Row</button>
+      <button className="ql-insertColumnRight" title="Insert Col Right" style={{ fontSize: '12px' }}>+Col</button>
+      <button className="ql-deleteRow" title="Delete Row" style={{ fontSize: '12px' }}>-Row</button>
+      <button className="ql-deleteColumn" title="Delete Col" style={{ fontSize: '12px' }}>-Col</button>
+      <button className="ql-deleteTable" title="Delete Table" style={{ fontSize: '14px', color: 'hsl(var(--destructive))' }}>🗑️</button>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-clean" />
+    </span>
+  </div>
+);
+
+const modules = {
+  toolbar: {
+    container: "#custom-toolbar",
+    handlers: {
+      'insertTable': function() {
+        // @ts-ignore
+        this.quill.getModule('table')?.insertTable(2, 2);
+      },
+      'insertRowBelow': function() {
+        // @ts-ignore
+        this.quill.getModule('table')?.insertRowBelow();
+      },
+      'insertColumnRight': function() {
+        // @ts-ignore
+        this.quill.getModule('table')?.insertColumnRight();
+      },
+      'deleteRow': function() {
+        // @ts-ignore
+        this.quill.getModule('table')?.deleteRow();
+      },
+      'deleteColumn': function() {
+        // @ts-ignore
+        this.quill.getModule('table')?.deleteColumn();
+      },
+      'deleteTable': function() {
+        // @ts-ignore
+        this.quill.getModule('table')?.deleteTable();
+      }
+    }
+  },
+  table: true // Enable Quill 2 native table module
+};
 
 export default function AdminBlogEditor() {
   const navigate = useNavigate();
@@ -38,7 +122,7 @@ export default function AdminBlogEditor() {
     if (slug) {
       const fetchPost = async () => {
         try {
-          const res = await fetch(`http://localhost:5000/api/blog/posts/${slug}`);
+          const res = await fetch(`${API_BASE}/api/blog/posts/${slug}`);
           if (!res.ok) throw new Error("Post not found");
           const data = await res.json();
           setPostId(data.id);
@@ -80,7 +164,7 @@ export default function AdminBlogEditor() {
     setSaving(true);
     try {
       const payload = { ...formData, isPublished };
-      const url = postId ? `http://localhost:5000/api/blog/posts/${postId}` : "http://localhost:5000/api/blog/posts";
+      const url = postId ? `${API_BASE}/api/blog/posts/${postId}` : `${API_BASE}/api/blog/posts`;
       const method = postId ? "PUT" : "POST";
 
       const response = await fetch(url, {
@@ -131,10 +215,12 @@ export default function AdminBlogEditor() {
             </div>
 
             <div className="bg-card rounded-xl border border-border overflow-hidden">
+              <CustomToolbar />
               <ReactQuill
                 theme="snow"
                 value={formData.content}
                 onChange={(content) => setFormData(p => ({ ...p, content }))}
+                modules={modules}
                 className="min-h-[500px]"
               />
             </div>
@@ -186,7 +272,7 @@ export default function AdminBlogEditor() {
                             uploadData.append("image", file);
                             
                             try {
-                              const res = await fetch("http://localhost:5000/api/upload/image", {
+                              const res = await fetch(`${API_BASE}/api/upload/image`, {
                                 method: "POST",
                                 headers: {
                                   "Authorization": `Bearer ${localStorage.getItem('admin_token')}`

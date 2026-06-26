@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap');
+/* Google Fonts loaded via <link> in index.html for non-blocking performance */
+
 
 @tailwind base;
 @tailwind components;
@@ -6,6 +7,64 @@
 
 @layer base {
   :root {
+    /* LIGHT MODE */
+    --background: 0 0% 100%;
+    --foreground: 220 20% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 10%;
+    --card-hover: 220 14% 98%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 10%;
+
+    --primary: 150 80% 35%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 20% 10%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 10% 45%;
+
+    --accent: 260 70% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 50%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 13% 90%;
+    --input: 220 13% 90%;
+    --ring: 150 80% 35%;
+
+    --radius: 0.75rem;
+
+    --gaming-yellow: 45 100% 45%;
+    --gaming-orange: 25 100% 45%;
+    --gaming-pink: 330 80% 50%;
+    --gaming-blue: 210 90% 45%;
+    --gaming-cyan: 185 80% 40%;
+
+    --gradient-gaming: linear-gradient(135deg, hsl(150, 80%, 35%), hsl(185, 80%, 40%));
+    --gradient-hero: linear-gradient(135deg, hsl(260, 70%, 96%), hsl(0, 0%, 100%), hsl(150, 80%, 96%));
+    --gradient-card: linear-gradient(180deg, hsl(0, 0%, 100%), hsl(220, 14%, 98%));
+
+    --shadow-glow: 0 0 20px hsl(150 80% 35% / 0.15);
+    --shadow-card: 0 4px 15px hsl(0 0% 0% / 0.05);
+    --shadow-card-hover: 0 8px 25px hsl(0 0% 0% / 0.1);
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 20% 10%;
+    --sidebar-primary: 150 80% 35%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 96%;
+    --sidebar-accent-foreground: 220 20% 10%;
+    --sidebar-border: 220 13% 90%;
+    --sidebar-ring: 150 80% 35%;
+  }
+
+  .dark {
+    /* DARK MODE */
     --background: 220 20% 4%;
     --foreground: 0 0% 96%;
 
@@ -129,6 +188,51 @@
   margin-bottom: 1.75rem;
   font-size: 1.0625rem;
   line-height: 1.9;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+
+/* Custom Table Button for Quill Toolbar */
+.ql-snow .ql-toolbar button.ql-table {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.ql-snow .ql-toolbar button.ql-table::after {
+  content: '田'; /* Simple table icon representation */
+  font-weight: bold;
+  font-size: 16px;
+  color: currentColor;
+  opacity: 0.8;
+}
+.ql-snow .ql-toolbar button.ql-table:hover::after {
+  opacity: 1;
+  color: var(--primary);
+}
+
+/* Quill Editor Table Styling for Dark Mode */
+.ql-editor table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.ql-editor table td, 
+.ql-editor table th {
+  border: 1px solid hsl(var(--border));
+  padding: 8px 12px;
+  min-width: 50px;
+}
+
+.ql-editor table tbody tr:nth-child(even) {
+  background-color: hsl(var(--secondary) / 0.3);
 }
 
 .blog-prose h1, .blog-prose h2, .blog-prose h3, .blog-prose h4 {

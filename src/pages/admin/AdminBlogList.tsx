@@ -4,6 +4,8 @@ import { Loader2, Plus, Edit, Trash2, Star, Eye, MessageCircle, Link2, LogOut, S
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Helmet } from "react-helmet-async";
+import { API_BASE } from "@/lib/api";
 
 export default function AdminBlogList() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -16,13 +18,18 @@ export default function AdminBlogList() {
   const token = localStorage.getItem("admin_token") || "";
   let adminEmail = "";
   try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64).split("").map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)).join("")
+    );
+    const payload = JSON.parse(jsonPayload);
     adminEmail = payload.email || "";
   } catch {}
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/blog/posts");
+      const response = await fetch(`${API_BASE}/api/blog/posts`);
       if (!response.ok) throw new Error("Failed to fetch posts");
       const data = await response.json();
       setPosts(data);
@@ -40,7 +47,7 @@ export default function AdminBlogList() {
   const handleDelete = async (id: string, title: string) => {
     if (!window.confirm(`Are you sure you want to delete "${title}"?`)) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/blog/posts/${id}`, {
+      const res = await fetch(`${API_BASE}/api/blog/posts/${id}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${localStorage.getItem("admin_token")}` }
       });
@@ -68,6 +75,7 @@ export default function AdminBlogList() {
 
   return (
     <div className="bg-background min-h-screen">
+      <Helmet><meta name="robots" content="noindex, nofollow" /></Helmet>
       {/* Admin Header */}
       <div className="border-b border-border px-6 py-4 flex items-center justify-between">
         <div>

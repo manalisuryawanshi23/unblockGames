@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { Loader2, ArrowLeft, Share2, List, Tag } from "lucide-react";
 import SEO from "@/components/SEO";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { API_BASE } from "@/lib/api";
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -12,7 +13,7 @@ export default function BlogPost() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/blog/posts/${slug}`);
+        const response = await fetch(`${API_BASE}/api/blog/posts/${slug}`);
         if (!response.ok) throw new Error("Post not found");
         const data = await response.json();
         setPost(data);
