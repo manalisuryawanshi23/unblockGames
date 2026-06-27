@@ -183,8 +183,12 @@ function buildOGHtml(slug: string, gameData: { title: string; description: strin
 // Called by Nginx for ALL /game/:slug requests from social bots
 router.get('/game/:slug', (req: Request, res: Response) => {
   const slug = req.params.slug as string;
-  // __dirname = server/src/routes → ../../../ = project root → public/
-  const publicDir = path.join(__dirname, '../../../public');
+  // In Docker, process.cwd() is /app. We will mount the data directory to /app/public/data.
+  // Locally, process.cwd() is the server directory, so we go up one level.
+  const isDocker = process.env.NODE_ENV === 'production' || fs.existsSync('/.dockerenv');
+  const publicDir = isDocker 
+    ? path.join(process.cwd(), 'public') 
+    : path.join(process.cwd(), '../public');
 
   const gameData = getGameData(slug, publicDir);
   const html = buildOGHtml(slug, gameData);

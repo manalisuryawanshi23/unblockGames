@@ -33,6 +33,8 @@ services:
       - PORT=5000
     volumes:
       - ugz_uploads:/app/uploads
+      # Mount public data so the backend OG handler can read the game JSONs
+      - ./public/data:/app/public/data:ro
 
   frontend:
     build:
