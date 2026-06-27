@@ -19,6 +19,9 @@ app.use(express.json());
 // Serve static files from public directory
 app.use(express.static(path.join(__dirname, '../public')));
 
+// Serve uploaded images from the persistent Docker volume
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
 app.use('/api/auth', authRoutes);
 app.use('/api/blog', blogRoutes);
 app.use('/api/upload', uploadRoutes);
