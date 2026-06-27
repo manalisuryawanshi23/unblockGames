@@ -60,7 +60,7 @@ function getGameData(slug: string, publicDir: string): {
 // ─── Image Proxy Endpoint ──────────────────────────────────
 // WhatsApp needs to fetch the og:image. If CDN blocks hotlinking,
 // we proxy the image through our own server.
-router.get('/img', (req: Request, res: Response) => {
+router.get('/img', async (req: Request, res: Response) => {
   const rawUrl = req.query.url as string;
   if (!rawUrl) {
     res.status(400).send('Missing url param');
@@ -75,27 +75,46 @@ router.get('/img', (req: Request, res: Response) => {
     return;
   }
 
-  const protocol = targetUrl.protocol === 'https:' ? https : http;
+  try {
+    const response = await fetch(targetUrl.href, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; UnblockedGamesZone/1.0)',
+        'Referer': 'https://html5.gamemonetize.co/',
+        'Accept': 'image/*,*/*;q=0.8'
+      }
+    });
 
-  const options = {
-    hostname: targetUrl.hostname,
-    path: targetUrl.pathname + targetUrl.search,
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (compatible; UnblockedGamesZone/1.0)',
-      'Referer': 'https://html5.gamemonetize.co/',
-      'Accept': 'image/*,*/*;q=0.8'
+    if (!response.ok) {
+      res.status(response.status).send('Failed to fetch image from CDN');
+      return;
     }
-  };
 
-  protocol.get(options, (imgRes) => {
-    const contentType = imgRes.headers['content-type'] || 'image/jpeg';
+    const contentType = response.headers.get('content-type') || 'image/jpeg';
     res.setHeader('Content-Type', contentType);
     res.setHeader('Cache-Control', 'public, max-age=86400');
-    imgRes.pipe(res);
-  }).on('error', (err) => {
+    
+    // Convert WebStream to Node Stream
+    if (response.body) {
+      const reader = response.body.getReader();
+      const pump = async () => {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          res.write(value);
+        }
+        res.end();
+      };
+      pump().catch(err => {
+        console.error('Stream error:', err);
+        res.end();
+      });
+    } else {
+      res.end();
+    }
+  } catch (err) {
     console.error('Image proxy error:', err);
     res.status(502).send('Failed to fetch image');
-  });
+  }
 });
 
 // ─── OG Preview HTML builder ────────────────────────────────

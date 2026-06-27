@@ -36,12 +36,8 @@ router.post('/image', requireAdmin, upload.single('image'), (req, res) => {
     return;
   }
   
-  // The file is saved in public/uploads.
-  // We return the full URL including the localhost port for dev.
-  // In production, this should just be the relative path or production domain.
-  const protocol = req.protocol;
-  const host = req.get('host');
-  const imageUrl = `${protocol}://${host}/uploads/${req.file.filename}`;
+  // Return relative path so it automatically inherits the frontend's domain and HTTPS protocol
+  const imageUrl = `/uploads/${req.file.filename}`;
   
   res.json({ url: imageUrl });
 });
