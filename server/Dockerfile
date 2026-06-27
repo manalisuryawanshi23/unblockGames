@@ -16,8 +16,8 @@ COPY . .
 # Generate Prisma client and compile TypeScript to /dist
 RUN npm run build
 
-# Create uploads directory
-RUN mkdir -p uploads && chown -R node:node uploads
+# Create uploads directory at the volume mount path
+RUN mkdir -p /app/uploads && chown -R node:node /app/uploads
 
 # Expose internal port
 EXPOSE 5000

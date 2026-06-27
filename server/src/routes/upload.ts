@@ -4,10 +4,13 @@ import path from 'path';
 import fs from 'fs';
 import { requireAdmin } from '../middleware/auth';
 
+const SITE_URL = process.env.SITE_URL || 'https://unblockedgameszone.com';
+
 const router = Router();
 
-// Ensure upload directory exists
-const uploadDir = path.join(__dirname, '../../public/uploads');
+// Uploads go to /app/uploads which is mounted as a Docker volume.
+// __dirname in compiled code = /app/dist/routes, so we use process.cwd() for reliability.
+const uploadDir = path.join(process.cwd(), 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -36,8 +39,8 @@ router.post('/image', requireAdmin, upload.single('image'), (req, res) => {
     return;
   }
   
-  // Return relative path so it automatically inherits the frontend's domain and HTTPS protocol
-  const imageUrl = `/uploads/${req.file.filename}`;
+  // Return the full absolute URL so it works as an og:image for social sharing
+  const imageUrl = `${SITE_URL}/uploads/${req.file.filename}`;
   
   res.json({ url: imageUrl });
 });
