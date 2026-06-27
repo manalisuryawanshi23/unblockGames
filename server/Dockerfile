@@ -22,8 +22,5 @@ RUN mkdir -p /app/uploads && chown -R node:node /app/uploads
 # Expose internal port
 EXPOSE 5000
 
-# Use non-root user for security
-USER node
-
 # Start the compiled Node server
 CMD ["npm", "start"]
