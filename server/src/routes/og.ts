@@ -146,6 +146,7 @@ function buildOGHtml(slug: string, gameData: { title: string; description: strin
 
   <!-- Open Graph (WhatsApp, Facebook, Telegram, Discord) -->
   <meta property="og:type"              content="website" />
+  <meta property="fb:app_id"            content="850381667086827" />
   <meta property="og:site_name"         content="UnblockedGamesZone" />
   <meta property="og:url"               content="${pageUrl}" />
   <meta property="og:title"             content="${title}" />
